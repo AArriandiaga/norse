@@ -5,6 +5,10 @@ import norse.torch.utils.tensorboard as tensorboard
 
 
 class MockWriter:
+    key = None
+    spikes = None
+    index = None
+
     def add_histogram(self, key, spikes, index):
         self.key = key
         self.spikes = spikes
@@ -43,6 +47,7 @@ def test_activity_hook():
     print(writer.spikes, z.sum())
     assert torch.eq(writer.spikes, z.sum())
 
+
 def test_image_hook():
     cell = snn.LIFCell()
     writer = MockWriter()
@@ -54,6 +59,7 @@ def test_image_hook():
 
     assert z.max() > 0
     assert torch.all(torch.eq(writer.spikes, z))
+
 
 def test_histogram_hook():
     cell = snn.LIFCell()
